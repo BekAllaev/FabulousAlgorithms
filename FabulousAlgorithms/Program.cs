@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿using FabulousAlgorithms.ImmutableStack;
+using FabulousAlgorithms.ImmutableQueue;
 
-ImmutableStack.DemonstrateImmutableStack();
-ImmutableStack.DemonstrateCovariantImmutableStack();
+//ImmutableStack.DemonstrateImmutableStack();
+//ImmutableStack.DemonstrateCovariantImmutableStack();
+
+ImmutableQueue.DemonstrateImmutableQueue();

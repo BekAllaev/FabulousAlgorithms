@@ -1,6 +1,9 @@
-﻿using FabulousAlgorithms.ImmutableStack.Covariant;
+﻿using FabulousAlgorithms.Common;
+using FabulousAlgorithms.ImmutableStack.Covariant;
 using FabulousAlgorithms.ImmutableStack.Extensions;
 using FabulousAlgorithms.ImmutableStack.NonCovariant;
+
+namespace FabulousAlgorithms.ImmutableStack;
 
 public static class ImmutableStack
 {
