@@ -1,6 +1,4 @@
-﻿using FabulousAlgorithms.ImmutableStack;
-using FabulousAlgorithms.ImmutableQueue;
-using FabulousAlgorithms.UndoRedo;
+﻿using FabulousAlgorithms.UndoRedo;
 
 //ImmutableStack.DemonstrateImmutableStack();
 //ImmutableStack.DemonstrateCovariantImmutableStack();
