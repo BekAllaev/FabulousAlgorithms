@@ -8,6 +8,7 @@ namespace FabulousAlgorithms.MutableWrapper
 {
     /// <summary>
     /// This is mutable wrapper for <see cref="ImmutableQueue.IImQueue{T}"/>
+    /// It just keeps the current state of the queue and updates it when Enqueue or Dequeue is called.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class Queue<T> : IEnumerable<T>
