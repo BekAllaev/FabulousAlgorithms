@@ -1,8 +1,12 @@
-﻿using FabulousAlgorithms.UndoRedo;
+﻿using FabulousAlgorithms.HughesList;
+using FabulousAlgorithms.ImmutableStack;
+using FabulousAlgorithms.UndoRedo;
 
 //ImmutableStack.DemonstrateImmutableStack();
 //ImmutableStack.DemonstrateCovariantImmutableStack();
 
 //ImmutableQueue.DemonstrateImmutableQueue();
 
-UndoRedoDemonstration.Demonstrate();
+//UndoRedoDemonstration.Demonstrate();
+
+HListDemonstration.Run();

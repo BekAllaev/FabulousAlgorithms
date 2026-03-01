@@ -1,4 +1,6 @@
-﻿using FabulousAlgorithms.ImmutableStack.NonCovariant;
+﻿using FabulousAlgorithms.ImmutableStack.Covariant;
+using FabulousAlgorithms.ImmutableStack.Extensions;
+using FabulousAlgorithms.ImmutableStack.NonCovariant;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,8 +12,8 @@ namespace FabulousAlgorithms.Common
         public static string Comma<T>(this IEnumerable<T> items) => string.Join(',', items);
         public static string Bracket<T>(this IEnumerable<T> items) => "[" + items.Comma() + "]";
 
-        public static IImmutableStack<T> ReverseOnto<T>(
-            this IImmutableStack<T> stack, IImmutableStack<T> tail)
+        public static IImmutableStackCovariant<T> ReverseOnto<T>(
+            this IImmutableStackCovariant<T> stack, IImmutableStackCovariant<T> tail)
         {
             var result = tail;
             for (;!stack.IsEmpty;stack = stack.Pop())
@@ -19,13 +21,13 @@ namespace FabulousAlgorithms.Common
             return result;
         }
 
-        public static IImmutableStack<T> Reverse<T>(this IImmutableStack<T> stack) 
-            => stack.ReverseOnto(ImmutableStack<T>.Empty);
+        public static IImmutableStackCovariant<T> Reverse<T>(this IImmutableStackCovariant<T> stack) 
+            => stack.ReverseOnto(ImmutableStackCovariant<T>.Empty);
 
-        public static IImmutableStack<T> Concatenate<T>(this IImmutableStack<T> xs, IImmutableStack<T> ys)
+        public static IImmutableStackCovariant<T> Concatenate<T>(this IImmutableStackCovariant<T> xs, IImmutableStackCovariant<T> ys)
             => ys.IsEmpty? xs : xs.Reverse().ReverseOnto(ys);
 
-        public static IImmutableStack<T> Append<T>(this IImmutableStack<T> stack, T item)
-            => stack.Concatenate(ImmutableStack<T>.Empty.Push(item));
+        public static IImmutableStackCovariant<T> Append<T>(this IImmutableStackCovariant<T> stack, T item)
+            => stack.Concatenate(ImmutableStackCovariant<T>.Empty.Push(item));
     }
 }
