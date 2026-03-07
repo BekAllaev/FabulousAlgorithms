@@ -1,3 +1,5 @@
+using FabulousBackendAlgorithms.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +7,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+var currencyApiConfig = builder.Configuration.GetSection("CurrencyApi");
+var baseUrl = currencyApiConfig["BaseUrl"] ??
+              throw new InvalidOperationException("CurrencyApi:BaseUrl is required in configuration");
+var apiKey = currencyApiConfig["ApiKey"] ??
+             throw new InvalidOperationException("CurrencyApi:ApiKey is required in configuration");
+
+builder.Services.AddHttpClient<CurrencyApiClient>(client =>
+{
+    client.BaseAddress = new Uri(baseUrl);
+    client.DefaultRequestHeaders.Add("apikey", apiKey);
+});
+
+builder.Services.AddScoped<ICurrencyApiClient, CurrencyApiClient>();
 
 var app = builder.Build();
 
