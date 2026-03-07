@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="FabulousAlgorithms/FabulousAlgorithms.csproj" />
+  <Project Path="FabulousBackendAlgorithms/FabulousBackendAlgorithms.csproj" Id="dbb4c9a5-a4ea-4fa5-b09b-50cab720a22a" />
 </Solution>
