@@ -21,6 +21,7 @@ builder.Services.AddHttpClient<CurrencyApiClient>(client =>
 });
 
 builder.Services.AddScoped<ICurrencyApiClient, CurrencyApiClient>();
+builder.Services.AddSingleton<ICurrencyLockProvider, CurrencyLockProvider>();
 
 var app = builder.Build();
 
