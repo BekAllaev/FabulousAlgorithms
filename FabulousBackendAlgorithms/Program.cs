@@ -9,6 +9,7 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+// Register all available shipping strategy implementations for runtime selection.
 builder.Services.AddTransient<IShippingStrategy, ShippingStrategyA>();
 builder.Services.AddTransient<IShippingStrategy, ShippingStrategyB>();
 
