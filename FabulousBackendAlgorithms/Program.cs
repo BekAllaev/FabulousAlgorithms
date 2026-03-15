@@ -1,4 +1,5 @@
 using FabulousBackendAlgorithms.Services;
+using FabulousBackendAlgorithms.Strategies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddTransient<IShippingStrategy, ShippingStrategyA>();
+builder.Services.AddTransient<IShippingStrategy, ShippingStrategyB>();
 
 var currencyApiConfig = builder.Configuration.GetSection("CurrencyApi");
 var baseUrl = currencyApiConfig["BaseUrl"] ??
