@@ -229,7 +229,7 @@ namespace FabulousAlgorithms.Dequeue
                 new Dequeue<T>(left.PushLeft(item), middle, right) :
                 new Dequeue<T>(
                     new Two(item, left.Left()),
-                    middle.PushLeft(left),
+                    middle.PushLeft(left.PopLeft()),
                     right);
 
         public IDequeue<T> PushRight(T item) =>
