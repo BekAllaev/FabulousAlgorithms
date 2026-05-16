@@ -1,8 +1,11 @@
 ﻿using FabulousAlgorithms.Dequeue;
 using FabulousAlgorithms.ImmutableStack.Covariant;
 using FabulousAlgorithms.ImmutableStack.Extensions;
+using FabulousAlgorithms.Life;
 
 namespace FabulousAlgorithms.Common;
+
+using QuadPoint = (long X, long Y);
 
 public static class Extensions
 {
@@ -29,4 +32,79 @@ public static class Extensions
 
     public static IDeque<T> PushRightMany<T>(this IDeque<T> dequeu, IEnumerable<T> items) =>
         items.Aggregate(dequeu, (d, item) => d.PushRight(item));
+
+    //The width of an n-quad is 2n
+    public static long Width(this IQuad quad) => 1L << quad.Level;
+
+    public static bool Contains(this IQuad quad, QuadPoint p)
+    {
+        if (quad.Level == 0)
+            return p == (0, 0);
+        long w = quad.Width() / 2;
+        return -w <= p.X && p.X < w && -w <= p.Y && p.Y < w;
+    }
+
+    public static IQuad Get(this IQuad quad, QuadPoint p)
+    {
+        if (!quad.Contains(p))
+            throw new InvalidOperationException();
+
+        if (quad.Level == 0) // The moment when we find the Leaf(the cell)
+            return quad;
+
+        if (quad.IsEmpty) //A nice little optimization here to avoid unnecessary recursion
+            return Quad.Dead;
+
+        long w = quad.Width() / 4; // /4 because we want half-width of sub-quad
+
+        QuadPoint newp = ( //This is the tricky bit!
+            quad.Level == 1 ? 0 : 0 <= p.X ? -w : p.X + w, 
+            quad.Level == 1 ? 0 : 0 <= p.Y ? p.Y - w : p.Y + w);
+
+        if (0 <= p.X)
+            if (0 <= p.Y)
+                return quad.NE.Get(newp);
+            else
+                return quad.SE.Get(newp);
+        else if (0 <= p.Y)
+            return quad.NW.Get(newp);
+        else 
+            return quad.SW.Get(newp);
+    }
+
+    public static IQuad Set(this IQuad quad, QuadPoint p, IQuad q)
+    {
+        if (!quad.Contains(p))
+            throw new InvalidOperationException();
+
+        if (quad.Level == 0) // “Changing” a 0-quad is simply returning the new value
+            return q;
+
+        if (q == Quad.Dead && quad.IsEmpty) // Another nice optimization to skip a recursion
+            return quad;
+
+        long w = quad.Width() / 4;
+
+        QuadPoint newp = (
+            quad.Level == 1 ? 0 : 0 <= p.X ? p.X - w : p.X + w, // As before, the tricky bit is working out the target point in the next quad down
+            quad.Level == 1 ? 0 : 0 <= p.Y ? p.Y - w : p.Y + w);
+
+        var nw = quad.NW;
+        var ne = quad.NE;
+        var se = quad.SE;
+        var sw = quad.SW;
+
+        if (0 <= p.X)
+            if (0 <= p.Y)
+                ne = quad.NE.Set(newp, q);
+            else
+                se = quad.SE.Set(newp, q);
+        else if (0 <= p.Y)
+            nw = quad.NW.Set(newp, q);
+        else
+            sw = quad.SW.Set(newp, q);
+
+        //Make is memoized, so if the result is unchanged then the result will be identical to the input
+        return Quad.Make(nw, ne, se, sw);
+    }
 }
