@@ -107,4 +107,49 @@ public static class Extensions
         //Make is memoized, so if the result is unchanged then the result will be identical to the input
         return Quad.Make(nw, ne, se, sw);
     }
+
+    public static IQuad Embiggen(this IQuad quad)
+    {
+        if (quad.Level == 0)
+            throw new InvalidOperationException();
+
+        if (quad.Level >= Quad.MaxLevel)
+            return quad;
+
+        var e = Quad.Empty(quad.Level - 1);
+        return Quad.Make(
+            Quad.Make(e, e, quad.NW, e),
+            Quad.Make(e, e, e, quad.NE),
+            Quad.Make(quad.SE, e, e, e),
+            Quad.Make(e, quad.SW, e, e));
+    }
+
+    public static bool HasAllEmptyEdges(this IQuad quad) =>
+        quad.NW.NW.IsEmpty &&
+        quad.NW.NE.IsEmpty &&
+        quad.NE.NW.IsEmpty && 
+        quad.NE.NE.IsEmpty &&
+        quad.NE.SE.IsEmpty && 
+        quad.SE.NE.IsEmpty &&
+        quad.SE.SE.IsEmpty && 
+        quad.SE.SW.IsEmpty &&
+        quad.SW.SE.IsEmpty && 
+        quad.SW.SW.IsEmpty &&
+        quad.SW.NW.IsEmpty && 
+        quad.NW.SW.IsEmpty;
+
+    public static IQuad Center(this IQuad quad) =>
+        Quad.Make(quad.NW.SE, quad.NE.SW, quad.SE.NW, quad.SW.NE);
+    
+    public static IQuad North(this IQuad quad) =>
+        Quad.Make(quad.NW.NE, quad.NE.NW, quad.NE.SW, quad.NW.SE);
+    
+    public static IQuad East(this IQuad quad) =>
+        Quad.Make(quad.NE.SW, quad.NE.SE, quad.SE.NE, quad.SE.NW);
+    
+    public static IQuad South(this IQuad quad) =>
+        Quad.Make(quad.SW.NE, quad.SE.NW, quad.SE.SW, quad.SW.SE);
+    
+    public static IQuad West(this IQuad quad) =>
+        Quad.Make(quad.NW.SW, quad.NW.SE, quad.SW.NE, quad.SW.NW);
 }
