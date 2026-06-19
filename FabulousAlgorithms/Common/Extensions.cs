@@ -197,7 +197,7 @@ public static class Extensions
             items.Swap(start, end);
     }
 
-    public static bool NextLexiPremutation<T>(this IList<T> items) where T: IComparable<T>
+    public static bool NextLexiPremutation<T>(this IList<T> items) where T : IComparable<T>
     {
         int first = items.Count - 2;
 
@@ -226,5 +226,20 @@ public static class Extensions
             result *= i;
 
         return result;
+    }
+
+    public static IEnumerable<T> InsertAt<T>(
+        this IEnumerable<T> items, int index, T insert)
+    {
+        int current = 0;
+        foreach (T item in items)
+        {
+            if (current == index)
+                yield return insert;
+            yield return item;
+            current += 1;
+        }
+        if (current == index)
+            yield return insert;
     }
 }

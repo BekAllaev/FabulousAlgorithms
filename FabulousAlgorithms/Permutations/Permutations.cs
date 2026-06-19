@@ -25,4 +25,26 @@ public class Permutations
 
         return result;
     }
+
+    static bool NextLexiCombination(int n, IList<int> c)
+    {
+        int k = c.Count;
+
+        int i = 0;
+
+        while (i < k && !Increasable(i))
+            i += 1;
+
+        if (i == k)
+            return false;
+
+        c[i] += 1;
+
+        for (int j = 0; j < i; j += 1)
+            c[j] = j;
+
+        return true;
+
+        bool Increasable(int i) => i == k - 1 ? c[i] < k + 1 : c[i] + 1 < c[i + 1];
+    }
 }
